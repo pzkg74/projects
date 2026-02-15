@@ -255,3 +255,14 @@ main {
 		}
 	}
 }
+
+@media (width < 1500px) {
+	main {
+		grid-template-columns: 1fr;
+	}
+
+	.menu {
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+}
