@@ -5,17 +5,13 @@
 
 body {
 	font-family: sans-serif;
-	margin: 0;
 	min-height: 100vh;
+	max-width: 2500px;
+	margin: 0 auto; /* quick and easy solution but avoids major stretching on really wide displays */
 
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-template-rows: auto 1fr;
-}
-
-/* remove this once all svg's have defined widths */
-svg {
-	width: 10px;
 }
 
 nav {
@@ -146,6 +142,11 @@ header {
 				border: 0;
 				background-color: var(--accent-color);
 				color: white;
+				transition: background-color 0.3s;
+
+				&:hover {
+					background-color: hsl(from var(--accent-color) h s calc(l + 10));
+				}
 			}
 		}
 	}
@@ -154,7 +155,8 @@ header {
 main {
 	background-color: var(--background-color);
 	display: grid;
-	grid-template-columns: 70% 1fr;
+	column-gap: 20px;
+	grid-template-columns: 80% 1fr;
 	grid-template-rows: auto 1fr;
 	padding: 20px;
 
@@ -189,6 +191,65 @@ main {
 							width: 25px;
 						}
 					}
+				}
+			}
+		}
+	}
+
+	.announcements-container {
+		background-color: white;
+		border-radius: 10px;
+		padding: 10px 20px;
+
+		ul {
+			list-style: none;
+			padding: 0;
+
+			li {
+				p:first-child {
+					font-weight: bold;
+					font-size: 1.1rem;
+				}
+
+				&:not(:last-child)::after {
+					background-color: var(--background-color);
+					content: "";
+					width: 100%;
+					height: 2px;
+					display: block;
+					border-radius: 50px;
+				}
+			}
+		}
+	}
+
+	.trending-container {
+		background-color: white;
+		border-radius: 10px;
+		padding: 10px 20px;
+
+		ul {
+			list-style: none;
+			padding: 0;
+
+			img {
+				width: 50px;
+				border-radius: 50%;
+			}
+
+			li {
+				display: flex;
+				gap: 10px;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			p {
+				margin: 0;
+
+				&:last-child {
+					margin-top: 4px;
+					color: grey;
 				}
 			}
 		}
