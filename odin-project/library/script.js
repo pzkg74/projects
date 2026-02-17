@@ -1,8 +1,15 @@
 const bookTemplate = document.getElementById("bookTemplate");
 const addBookTemplate = document.getElementById("addBookTemplate");
 const main = document.querySelector("main");
-const readButtons = document.querySelectorAll(".readButtons");
+
 const addBookDialog = document.getElementById("addBookDialog");
+const closeModalButton = document.getElementById("closeModal");
+const newBookInput = {
+	title: document.getElementById("newBookTitle"),
+	author: document.getElementById("newBookAuthor"),
+};
+const formError = document.getElementById("formError");
+const addBookForm = addBookDialog.querySelector("form");
 
 const library = [
 	{
@@ -41,7 +48,9 @@ function addBookToLibrary(title, author, hasRead) {
 	library.push(newBook);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function displayBooks() {
+	main.innerHTML = "";
+
 	library.forEach((book) => {
 		const newBook = bookTemplate.content.cloneNode(true);
 		newBook.querySelector("article").dataset.id = book.id;
@@ -52,6 +61,37 @@ document.addEventListener("DOMContentLoaded", () => {
 			readButton.dataset.hasRead = true;
 			readButton.textContent = "Read";
 		}
+
+		newBook.querySelector(".readButton").addEventListener("click", (event) => {
+			if (event.target.dataset.hasRead === "true") {
+				event.target.dataset.hasRead = false;
+				event.target.textContent = "Not Read";
+				const currentBook = library.find(
+					(book) => book.id === event.target.closest("article").dataset.id,
+				);
+				currentBook.hasRead = false;
+			} else {
+				event.target.dataset.hasRead = true;
+				event.target.textContent = "Read";
+				const currentBook = library.find(
+					(book) => book.id === event.target.closest("article").dataset.id,
+				);
+				currentBook.hasRead = true;
+			}
+		});
+
+		newBook.querySelector(".deleteBook").addEventListener("click", (event) => {
+			const currentArticle = event.target.closest("article");
+
+			library.forEach((book, i) => {
+				if (book.id === currentArticle.dataset.id) {
+					library.splice(i, 1);
+					return;
+				}
+			});
+
+			currentArticle.remove();
+		});
 
 		main.append(newBook);
 	});
@@ -69,6 +109,100 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (event.key === "Enter") {
 			event.preventDefault();
 			addBookDialog.showModal();
+		}
+	});
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	displayBooks();
+
+	addBookForm.addEventListener("submit", (event) => {
+		if (newBookInput.title.value === "" && newBookInput.author.value === "") {
+			formError.textContent = "Please fill out all fields";
+			event.preventDefault();
+			return;
+		}
+		if (newBookInput.title.value === "") {
+			formError.textContent = "Please enter a title";
+			event.preventDefault();
+			return;
+		}
+		if (newBookInput.author.value === "") {
+			formError.textContent = "Please enter an author";
+			event.preventDefault();
+			return;
+		}
+
+		addBookToLibrary(
+			newBookInput.title.value,
+			newBookInput.author.value,
+			false,
+		);
+
+		const newBookObject = library.at(-1);
+
+		const newBook = bookTemplate.content.cloneNode(true);
+		newBook.querySelector("article").dataset.id = newBookObject.id;
+		newBook.querySelector("h2").textContent = newBookObject.title;
+		newBook.querySelector("h3").textContent = newBookObject.author;
+
+		newBook.querySelector(".readButton").addEventListener("click", (event) => {
+			if (event.target.dataset.hasRead === "true") {
+				event.target.dataset.hasRead = false;
+				event.target.textContent = "Not Read";
+				const currentBook = library.find(
+					(book) => book.id === event.target.closest("article").dataset.id,
+				);
+				currentBook.hasRead = false;
+			} else {
+				event.target.dataset.hasRead = true;
+				event.target.textContent = "Read";
+				const currentBook = library.find(
+					(book) => book.id === event.target.closest("article").dataset.id,
+				);
+				currentBook.hasRead = true;
+			}
+		});
+
+		newBook.querySelector(".deleteBook").addEventListener("click", (event) => {
+			const currentArticle = event.target.closest("article");
+
+			library.forEach((book, i) => {
+				if (book.id === currentArticle.dataset.id) {
+					library.splice(i, 1);
+					return;
+				}
+			});
+
+			currentArticle.remove();
+		});
+
+		main.insertBefore(newBook, document.getElementById("addBook"));
+
+		newBookInput.title.value = "";
+		newBookInput.author.value = "";
+		formError.textContent = "";
+		addBookForm.reset();
+
+		// displayBooks();
+		// TODO: change this so it adds the book instead of re rendering everything
+	});
+
+	newBookInput.title.addEventListener("keydown", (event) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			newBookInput.author.focus();
+		}
+	});
+
+	closeModalButton.addEventListener("click", () => {
+		addBookDialog.close();
+	});
+
+	addBookDialog.addEventListener("close", () => {
+		if (newBookInput.title.value === "" && newBookInput.author.value === "") {
+			addBookForm.reset();
+			formError.textContent = "";
 		}
 	});
 });
