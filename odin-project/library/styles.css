@@ -1,3 +1,21 @@
+@keyframes pop-in {
+	0% {
+		scale: 0;
+	}
+
+	50% {
+		scale: 110%;
+	}
+
+	100% {
+		scale: 100%;
+	}
+}
+
+.pop-in {
+	animation: pop-in 0.5s;
+}
+
 :root {
 	--border-radius: 20px;
 	--article-color: rgb(230, 230, 230);
@@ -49,6 +67,7 @@ main {
 			.readButton {
 				width: 90px;
 
+				/* TODO: dialog is too wide on mobile */
 				&:focus-visible {
 					outline: 2px solid black;
 					outline-offset: 4px;
@@ -168,6 +187,7 @@ main {
 			display: flex;
 			justify-content: space-between;
 			align-items: baseline;
+			gap: 10px;
 			margin: 0;
 
 			button {
@@ -193,6 +213,16 @@ main {
 		#formError {
 			font-style: italic;
 			color: hsl(0, 100%, 25%);
+		}
+	}
+}
+
+@media (width < 500px) {
+	#addBookDialog {
+		padding: 20px;
+
+		#textInputs {
+			grid-template-columns: auto;
 		}
 	}
 }

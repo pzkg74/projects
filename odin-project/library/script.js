@@ -54,6 +54,8 @@ function displayBooks() {
 	library.forEach((book) => {
 		const newBook = bookTemplate.content.cloneNode(true);
 		newBook.querySelector("article").dataset.id = book.id;
+		newBook.querySelector("article").style.viewTransitionName =
+			`book-${book.id}`;
 		newBook.querySelector("h2").textContent = book.title;
 		newBook.querySelector("h3").textContent = book.author;
 		if (book.hasRead) {
@@ -90,7 +92,10 @@ function displayBooks() {
 				}
 			});
 
-			currentArticle.remove();
+			currentArticle.style.viewTransitionName = "none";
+			document.startViewTransition(() => {
+				currentArticle.remove();
+			});
 		});
 
 		main.append(newBook);
@@ -100,13 +105,14 @@ function displayBooks() {
 	main.append(addBook);
 
 	const addBookElement = document.getElementById("addBook");
+	addBookElement.style.viewTransitionName = "book-add-book";
 
 	addBookElement.addEventListener("click", () => {
 		addBookDialog.showModal();
 	});
 
 	addBookElement.addEventListener("keydown", (event) => {
-		if (event.key === "Enter") {
+		if (event.key === "Enter" || event.key === " ") {
 			event.preventDefault();
 			addBookDialog.showModal();
 		}
@@ -119,16 +125,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	addBookForm.addEventListener("submit", (event) => {
 		if (newBookInput.title.value === "" && newBookInput.author.value === "") {
 			formError.textContent = "Please fill out all fields";
+			newBookInput.title.focus();
 			event.preventDefault();
 			return;
 		}
 		if (newBookInput.title.value === "") {
 			formError.textContent = "Please enter a title";
 			event.preventDefault();
+			newBookInput.title.focus();
 			return;
 		}
 		if (newBookInput.author.value === "") {
 			formError.textContent = "Please enter an author";
+			newBookInput.author.focus();
 			event.preventDefault();
 			return;
 		}
@@ -143,6 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		const newBook = bookTemplate.content.cloneNode(true);
 		newBook.querySelector("article").dataset.id = newBookObject.id;
+		newBook.querySelector("article").classList.add("pop-in");
+		newBook.querySelector("article").style.viewTransitionName =
+			`book-${newBookObject.id}`;
+		console.log(newBookObject.id);
 		newBook.querySelector("h2").textContent = newBookObject.title;
 		newBook.querySelector("h3").textContent = newBookObject.author;
 
@@ -174,18 +187,21 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 			});
 
-			currentArticle.remove();
+			document.startViewTransition(() => {
+				currentArticle.remove();
+			});
 		});
 
-		main.insertBefore(newBook, document.getElementById("addBook"));
+		document.startViewTransition(() => {
+			main.insertBefore(newBook, document.getElementById("addBook"));
+		});
+
+		// newBook.style;
 
 		newBookInput.title.value = "";
 		newBookInput.author.value = "";
 		formError.textContent = "";
 		addBookForm.reset();
-
-		// displayBooks();
-		// TODO: change this so it adds the book instead of re rendering everything
 	});
 
 	newBookInput.title.addEventListener("keydown", (event) => {
