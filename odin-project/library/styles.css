@@ -16,6 +16,12 @@
 	animation: pop-in 0.5s;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	.pop-in {
+		animation: none;
+	}
+}
+
 :root {
 	--border-radius: 20px;
 	--article-color: rgb(230, 230, 230);

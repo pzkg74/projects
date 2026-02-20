@@ -11,26 +11,36 @@ const newBookInput = {
 const formError = document.getElementById("formError");
 const addBookForm = addBookDialog.querySelector("form");
 
-const library = [
-	{
-		id: "3403cc51-e940-492d-a7a6-0d6bb2d4aa0f",
-		title: "The Hobbit",
-		author: "J.R.R. Tolkien",
-		hasRead: true,
-	},
-	{
-		id: "4044185a-d8bf-4256-9236-243c81bbbcb2",
-		title: "The Hitchhiker's Guide to the Galaxy",
-		author: "Douglas Adams",
-		hasRead: true,
-	},
-	{
-		id: "668e6a3e-d9aa-46a4-8b6a-2fed19cac748",
-		title: "Charlie and the Great Glass Elevator",
-		author: "Roald Dahl",
-		hasRead: false,
-	},
-];
+function updateLocalStorage() {
+	localStorage.setItem("library", JSON.stringify(library));
+}
+
+let library;
+if (localStorage.getItem("library") === null) {
+	library = [
+		{
+			id: "3403cc51-e940-492d-a7a6-0d6bb2d4aa0f",
+			title: "The Hobbit",
+			author: "J.R.R. Tolkien",
+			hasRead: true,
+		},
+		{
+			id: "4044185a-d8bf-4256-9236-243c81bbbcb2",
+			title: "The Hitchhiker's Guide to the Galaxy",
+			author: "Douglas Adams",
+			hasRead: true,
+		},
+		{
+			id: "668e6a3e-d9aa-46a4-8b6a-2fed19cac748",
+			title: "Charlie and the Great Glass Elevator",
+			author: "Roald Dahl",
+			hasRead: false,
+		},
+	];
+	localStorage.setItem("library", JSON.stringify(library));
+} else {
+	library = JSON.parse(localStorage.getItem("library"));
+}
 
 function Book(title, author, hasRead) {
 	if (!new.target) {
@@ -84,6 +94,7 @@ function displayBooks() {
 				);
 				currentBook.hasRead = true;
 			}
+			updateLocalStorage();
 		});
 
 		newBook.querySelector(".deleteBook").addEventListener("click", (event) => {
@@ -103,6 +114,7 @@ function displayBooks() {
 			document.startViewTransition(() => {
 				currentArticle.remove();
 			});
+			updateLocalStorage();
 
 			document.ariaNotify(
 				`${currentBook.title} by ${currentBook.author} was deleted from your library`,
@@ -161,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			newBookInput.author.value,
 			false,
 		);
+		updateLocalStorage();
 
 		document.ariaNotify(
 			`${newBookInput.title.value} by ${newBookInput.author.value} added to your library`,
@@ -194,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				);
 				currentBook.hasRead = true;
 			}
+			updateLocalStorage();
 		});
 
 		newBook.querySelector(".deleteBook").addEventListener("click", (event) => {
@@ -209,6 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.startViewTransition(() => {
 				currentArticle.remove();
 			});
+			updateLocalStorage();
 		});
 
 		document.startViewTransition(() => {
