@@ -9,14 +9,18 @@
 	</head>
 	<body>
 		<h1>MyLibrary</h1>
-		<main></main>
+		<main aria-live="polite"></main>
 
 		<dialog id="addBookDialog" closedby="any">
 			<form method="dialog" novalidate>
 				<div id="titleAndClose">
 					<h2>Add book</h2>
-					<button type="button" id="closeModal">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+					<button type="button" id="closeModal" aria-label="Close modal">
+						<svg
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 384 512"
+						>
 							<!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path
 								d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z"
 							/>
@@ -26,10 +30,20 @@
 
 				<div id="textInputs">
 					<label for="newBookTitle">Title:</label>
-					<input type="text" id="newBookTitle" required>
+					<input
+						type="text"
+						id="newBookTitle"
+						required
+						aria-describedby="formError"
+					>
 
 					<label for="newBookAuthor">Author:</label>
-					<input type="text" id="newBookAuthor" required>
+					<input
+						type="text"
+						id="newBookAuthor"
+						required
+						aria-describedby="formError"
+					>
 				</div>
 
 				<div>
@@ -44,7 +58,12 @@
 				<h2>Title</h2>
 				<h3>Author</h3>
 				<div>
-					<button type="button" class="readButton" data-has-read="false">
+					<button
+						aria-label="Toggle read status"
+						type="button"
+						class="readButton"
+						data-has-read="false"
+					>
 						Not Read
 					</button>
 					<div class="book-options">
@@ -55,8 +74,12 @@
 								/>
 							</svg>
 						</button> -->
-						<button type="button" class="deleteBook">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+						<button aria-label="Delete book" type="button" class="deleteBook">
+							<svg
+								aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 448 512"
+							>
 								<!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path
 									d="M136.7 5.9C141.1-7.2 153.3-16 167.1-16l113.9 0c13.8 0 26 8.8 30.4 21.9L320 32 416 32c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 8.7-26.1zM32 144l384 0 0 304c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-304zm88 64c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24zm104 0c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24zm104 0c-13.3 0-24 10.7-24 24l0 192c0 13.3 10.7 24 24 24s24-10.7 24-24l0-192c0-13.3-10.7-24-24-24z"
 								/>
@@ -68,9 +91,13 @@
 		</template>
 
 		<template id="addBookTemplate">
-			<div id="addBook" tabindex="0">
-				<h2>Add book</h2>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+			<div id="addBook" tabindex="0" role="button" aria-label="Add book">
+				<h2 aria-hidden="true">Add book</h2>
+				<svg
+					aria-hidden="true"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 448 512"
+				>
 					<!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path
 						d="M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z"
 					/>

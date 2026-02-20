@@ -56,6 +56,10 @@ function displayBooks() {
 		newBook.querySelector("article").dataset.id = book.id;
 		newBook.querySelector("article").style.viewTransitionName =
 			`book-${book.id}`;
+		newBook.querySelector("button").ariaLabel =
+			`Toggle read status for ${book.title} by ${book.author}`;
+		newBook.querySelector(".deleteBook").ariaLabel =
+			`Delete ${book.title} by ${book.author}`;
 		newBook.querySelector("h2").textContent = book.title;
 		newBook.querySelector("h3").textContent = book.author;
 		if (book.hasRead) {
@@ -85,8 +89,11 @@ function displayBooks() {
 		newBook.querySelector(".deleteBook").addEventListener("click", (event) => {
 			const currentArticle = event.target.closest("article");
 
+			const currentBook = {};
 			library.forEach((book, i) => {
 				if (book.id === currentArticle.dataset.id) {
+					currentBook.title = book.title;
+					currentBook.author = book.author;
 					library.splice(i, 1);
 					return;
 				}
@@ -96,6 +103,11 @@ function displayBooks() {
 			document.startViewTransition(() => {
 				currentArticle.remove();
 			});
+
+			document.ariaNotify(
+				`${currentBook.title} by ${currentBook.author} was deleted from your library`,
+				{ priority: "high" },
+			);
 		});
 
 		main.append(newBook);
@@ -109,12 +121,14 @@ function displayBooks() {
 
 	addBookElement.addEventListener("click", () => {
 		addBookDialog.showModal();
+		newBookInput.title.focus();
 	});
 
 	addBookElement.addEventListener("keydown", (event) => {
 		if (event.key === "Enter" || event.key === " ") {
 			event.preventDefault();
 			addBookDialog.showModal();
+			newBookInput.title.focus();
 		}
 	});
 }
@@ -146,6 +160,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			newBookInput.title.value,
 			newBookInput.author.value,
 			false,
+		);
+
+		document.ariaNotify(
+			`${newBookInput.title.value} by ${newBookInput.author.value} added to your library`,
+			{ priority: "high" },
 		);
 
 		const newBookObject = library.at(-1);
@@ -195,8 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.startViewTransition(() => {
 			main.insertBefore(newBook, document.getElementById("addBook"));
 		});
-
-		// newBook.style;
 
 		newBookInput.title.value = "";
 		newBookInput.author.value = "";

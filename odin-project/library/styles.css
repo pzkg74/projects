@@ -79,6 +79,8 @@ main {
 				border: solid 2px black;
 				padding: 5px 10px;
 				cursor: pointer;
+				height: 44px;
+				min-width: 44px;
 
 				&[data-has-read="true"] {
 					background-color: hsl(120, 100%, 85%);
@@ -99,7 +101,7 @@ main {
 					}
 
 					svg {
-						height: 1.3rem;
+						height: 100%;
 					}
 				}
 			}
@@ -146,7 +148,7 @@ main {
 	#titleAndClose {
 		display: flex;
 		justify-content: space-between;
-		align-items: baseline;
+		align-items: center;
 		margin-bottom: 25px;
 
 		h2 {
@@ -158,9 +160,11 @@ main {
 			border: 0;
 			cursor: pointer;
 			padding: 6px;
+			width: 44px;
+			height: 44px;
 
 			svg {
-				height: 1.5rem;
+				height: 100%;
 			}
 		}
 	}
@@ -168,6 +172,7 @@ main {
 	#textInputs {
 		display: grid;
 		grid-template-columns: auto 1fr;
+		align-items: center;
 		gap: var(--dialog-elements-gap);
 		margin: 0;
 
